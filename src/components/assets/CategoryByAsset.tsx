@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import AssetList from './AssetList'
 import PaginationButton from '../common/PaginationButton'
-import { useCategoryAssets, useGetAssets } from '@/hooks/useGetAssets'
+import { useSubCategoryAssets } from '@/hooks/useGetAssets'
 import { usePathname } from 'next/navigation'
 
 export default function CategoryByAsset() {
@@ -14,7 +14,7 @@ export default function CategoryByAsset() {
   console.log(category, subCategory)
 
   const [activePage, setActivePage] = useState(0)
-  const { categoryAssets } = useCategoryAssets(activePage, category, subCategory)
+  const { categoryAssets } = useSubCategoryAssets(activePage, category, subCategory)
   console.log({ categoryAssets })
 
   return (
@@ -25,7 +25,7 @@ export default function CategoryByAsset() {
           <span className="text-sl">({categoryAssets?.data?.totalElement})</span>
         </div>
       </div>
-      <AssetList assets={categoryAssets?.data?.assetList} />
+      <AssetList assets={categoryAssets?.data?.assetList} swipeable={false} />
       <PaginationButton
         activePage={activePage}
         setActivePage={setActivePage}

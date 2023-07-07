@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <Layout>
       <div className="flex">
-        <div className="h-[100%] w-full">
+        <div className="h-full w-full">
           <IndividualAsset />
           <Footer />
         </div>

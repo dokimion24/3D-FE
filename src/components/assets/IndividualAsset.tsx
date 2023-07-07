@@ -17,7 +17,7 @@ export default function IndividualAsset() {
           <span className="text-sl">({assets?.data?.totalElement})</span>
         </div>
       </div>
-      <AssetList assets={assets?.data?.assetList} />
+      <AssetList assets={assets?.data?.assetList} swipeable={false} />
       <PaginationButton
         activePage={activePage}
         setActivePage={setActivePage}
