@@ -1,38 +1,33 @@
 'use client'
 
-import { formatPrice } from '@/utils/formatPrice'
-import {
-  OrderHistory,
-  OrderHistoryResponse,
-  OrderHistoryResponseData,
-} from '@/api/interface/payment'
 import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { OrderHistory, OrderHistoryDetailResponse } from '@/api/interface/payment'
+import { formatPrice } from '@/utils/formatPrice'
 import { setClickedOrderHistory } from '@/store/clickedOrderHistorySlice'
-import { showOrderHistoryDetail } from '@/store/orderHistoryDetailSlice'
-
-// interface MyOrderHistoryItemProps {
-//   // orderHistory: OrderHistory
-//   orderHistory: OrderHistoryResponse['data']['orderList'][0]
-//   // orderHistory: OrderHistoryResponseData['data']['orderList'][0]
-// }
+import { hideOrderHistoryDetail, showOrderHistoryDetail } from '@/store/orderHistoryDetailSlice'
+import DetailDrawer from './orderHistoryDetail/DetailDrawer'
+import MyOrderDetail from './orderHistoryDetail/MyOrderDetail'
 
 interface MyOrderHistoryItemProps {
-  orderHistory: {
-    orderId: number
-    orderNumber: string
-    orderDate: string
-    totalPrice: number
-    assetCount: number
-  }
+  orderHistory: OrderHistory
+  detailInfo: OrderHistoryDetailResponse | undefined
 }
-
-export default function MyOrderHistoryItem({ orderHistory }: MyOrderHistoryItemProps) {
+export default function MyOrderHistoryItem({ orderHistory, detailInfo }: MyOrderHistoryItemProps) {
+  const [showItemDetail, setShowItemDetail] = useState(false)
   const dispatch = useDispatch()
 
   const handleOrderNumberClick = () => {
-    console.log('주문번호 클릭!')
     dispatch(setClickedOrderHistory(orderHistory.orderId))
-    dispatch(showOrderHistoryDetail())
+    console.log(setClickedOrderHistory(orderHistory.orderId), 'handleOrderNumberClick')
+
+    if (showItemDetail) {
+      dispatch(hideOrderHistoryDetail())
+    } else {
+      dispatch(showOrderHistoryDetail())
+    }
+
+    setShowItemDetail(!showItemDetail)
   }
 
   return (
@@ -41,13 +36,16 @@ export default function MyOrderHistoryItem({ orderHistory }: MyOrderHistoryItemP
         onClick={handleOrderNumberClick}
         className="my-4 flex h-[3.75rem] w-full justify-between border-b border-neutral-navy-300 pb-3 text-[0.8rem] hover:cursor-pointer hover:border-b hover:border-sky-500"
       >
-        <span className="ml-[0.5rem] mr-[8.4rem] pt-3">{orderHistory.orderDate}</span>
-        <span className="mr-[18rem] text-[1.2rem] underline underline-offset-4">
+        <span className="mr-[11.5rem] pt-3">{orderHistory.orderDate}</span>
+        <span className="mr-[25rem] text-[1.2rem] underline underline-offset-4">
           {orderHistory.orderNumber}
         </span>
-        <span className="mr-[0.5rem] pt-3">{orderHistory.assetCount}&nbsp;개</span>
-        <span className="mr-[0.5rem] text-[1.2rem]">{formatPrice(orderHistory.totalPrice)}</span>
+        <span className="pt-3">{orderHistory.assetCount}&nbsp;개</span>
+        <span className="text-[1.2rem]">{formatPrice(orderHistory.totalPrice)}</span>
       </li>
+      {/* {showItemDetail && <div className="h-96 w-full bg-sky-700"></div>} */}
+
+      {showItemDetail && <MyOrderDetail detailInfo={detailInfo} />}
     </>
   )
 }

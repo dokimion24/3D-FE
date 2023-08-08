@@ -19,8 +19,8 @@ type CustomCalendarProps = {
   setGetStartDate: Dispatch<SetStateAction<string>>
   setGetEndDate: Dispatch<SetStateAction<string>>
 }
-// export default function MyOrderCalendar({ setStartDate, setEndDate }: CustomCalendarProps) {
-export default function MyOrderCalendar() {
+export default function MyOrderCalendar({ setGetStartDate, setGetEndDate }: CustomCalendarProps) {
+  // export default function MyOrderCalendar() {
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [endDate, setEndDate] = useState<Date | null>(new Date())
 

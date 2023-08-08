@@ -12,10 +12,8 @@ export default function Drawer({ children }: Props) {
   const isOpen = useSelector((state: RootState) => state.drawer.isOpen)
 
   return isOpen ? (
-    <section className="sticky top-[7.2rem] z-10 h-[calc(100vh-7.2rem)]">
-      <div className="no-scrollbar h-full min-w-[71rem] overflow-y-scroll border-l border-transparent-navy-30 bg-bg-0">
-        <section>{children}</section>
-      </div>
-    </section>
+    <div className="no-scrollbar absolute min-h-[71rem] w-full overflow-y-scroll border-l border-transparent-navy-30 bg-bg-0">
+      <section>{children}</section>
+    </div>
   ) : null
 }

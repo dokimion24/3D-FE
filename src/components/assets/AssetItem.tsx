@@ -18,7 +18,9 @@ export default function AssetItem({ asset }: Props) {
     dispatch(openDrawer())
   }
 
-  const isCheckImage = /.*\.png.*/.test(asset.thumbnailUrl)
+  const isCheckImage = asset.thumbnailUrl.includes('thumbnail/')
+
+  console.log(asset.thumbnailUrl)
 
   return (
     <li
@@ -37,7 +39,7 @@ export default function AssetItem({ asset }: Props) {
             alt="left"
             width={`${isCheckImage ? 212 : 48}`}
             height={`${isCheckImage ? 266 : 48}`}
-            className="object-cover "
+            className="object-fit"
           />
         </div>
 

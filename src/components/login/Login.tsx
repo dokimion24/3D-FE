@@ -5,6 +5,7 @@ import { useLogin } from '@/hooks/useLogin'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { LoginRequest } from '@/api/interface/auth'
+import { useUser } from '@/hooks/useUser'
 
 export default function Login() {
   const { mutate: loginUser } = useLogin()
@@ -15,15 +16,18 @@ export default function Login() {
     formState: { isDirty, errors, isValid },
   } = useForm<LoginRequest>()
 
+  const { fetchUserId } = useUser()
+
   // 비밀번호 노출 토글
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const togglePasswordVisibility = () => {
     setPasswordVisibility((prevVisibility) => !prevVisibility)
   }
 
-  const onSubmit = (data: LoginRequest) => {
+  const onSubmit = async (data: LoginRequest) => {
     const { email, password, keepLogin } = data
     loginUser({ email, password, keepLogin })
+    await fetchUserId()
     router.push('/')
   }
 

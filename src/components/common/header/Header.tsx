@@ -26,20 +26,18 @@ export default function Header() {
     }
   }, [userId])
 
-  const { refetch } = useQuery(
-    ['cartCount', userId],
-    () => (userId !== undefined ? cartCount(userId) : Promise.resolve(0)),
-    {
-      enabled: userId !== undefined,
-      onSuccess: (data) => {
-        dispatch(setItemCount(data))
-      },
+  const { refetch } = useQuery(['cartCount', userId], () => cartCount(userId), {
+    enabled: !!userId,
+    onSuccess: (data) => {
+      dispatch(setItemCount(data))
     },
-  )
+  })
 
   useEffect(() => {
-    refetch()
-  }, [accessToken, refetch])
+    if (userId && accessToken) {
+      refetch()
+    }
+  }, [userId, accessToken, refetch])
 
   return (
     <header className="fixed z-10 flex h-[7.2rem] w-[calc(100%-24.4rem)] items-center justify-between border-b border-solid border-transparent-navy-30 bg-bg-1 px-[2.3rem] py-[1.1rem]">
@@ -71,21 +69,21 @@ export default function Header() {
             <div className="cursor-pointer p-[0.9rem]">
               <Image src="/icons/user.svg" alt="마이페이지" width={22} height={22} />
             </div>
-            <div className="absolute right-0 top-[100%] hidden pt-[1.5rem] text-center text-sl group-hover:block">
+            <div className="absolute right-0 top-[100%] hidden text-center text-sl group-hover:block">
               <ul className="w-[13.1rem] rounded-[0.4rem] bg-bg-1 p-4 text-neutral-navy-100">
                 <li className="leading-[4.4rem]">
                   <Link href="/my-page" className="text-neutral-navy-100">
-                    내 계정
+                    마이페이지
                   </Link>
                 </li>
-                <li className="leading-[4.4rem]">
+                {/* <li className="leading-[4.4rem]">
                   <OrderHistoryButton
                     setSelectedTab={function (prev: boolean): void {
                       throw new Error('Function not implemented.')
                     }}
                     selectedTab={false}
                   />
-                </li>
+                </li> */}
                 <Logout setAccessToken={setAccessToken} />
               </ul>
             </div>

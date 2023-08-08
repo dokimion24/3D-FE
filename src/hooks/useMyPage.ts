@@ -4,6 +4,7 @@ import { RootState } from '@/store/store'
 import { useRouter } from 'next/navigation'
 import {
   getMyPageOrderHistory,
+  getMyPageOrderHistoryDetail,
   getOrderHistory,
   getUserInfo,
   withdrawal,
@@ -13,9 +14,11 @@ import { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
 import { removeCookie } from '@/utils/token'
 import { data } from 'autoprefixer'
+import { endOfDay, startOfDay, subDays } from 'date-fns'
+import { useUser } from './useUser'
 
 export const useGetUserInfo = () => {
-  const userId = useSelector((state: RootState) => state.user.userId)
+  const { userId } = useUser()
   const { data: myUser, refetch } = useQuery({
     queryKey: ['myUser', userId],
     queryFn: () => getUserInfo(),
@@ -69,22 +72,29 @@ export const useWithdrawal = () => {
   return { deleteWithdrawal }
 }
 
-// export const useGetOrderHistories = (page: number) => {
-//   const { data: orderHistories } = useQuery({
-//     queryKey: ['orderHistories', page],
-//     queryFn: () => getOrderHistory(page),
-//   })
-
-//   return { orderHistories }
-// }
-
-export const useGetOrderHistories = (startDate: string, endDate: string) => {
-  const id = useSelector((state: RootState) => state.user.userId)
+export const useGetOrderHistories = () => {
+  const { userId } = useUser()
+  //오늘 부터 한 달 이전 기준으로 출력
+  const today = new Date()
+  const startDate = startOfDay(subDays(today, 30))
+  const endDate = endOfDay(today)
 
   const { data: orderHistories } = useQuery({
-    queryKey: ['orderHistories', id, startDate, endDate],
-    queryFn: () => getMyPageOrderHistory(id, startDate, endDate),
+    queryKey: ['orderHistories', userId, startDate, endDate],
+    queryFn: () => getMyPageOrderHistory(userId, startDate, endDate),
     keepPreviousData: true,
   })
+
   return { orderHistories }
+}
+
+export const useOrderHistoryDetail = (oderId: number) => {
+  const { userId } = useUser()
+  const { data: orderHistoryDetail } = useQuery({
+    queryKey: ['orderHistoryDetail', userId, oderId],
+    queryFn: () => getMyPageOrderHistoryDetail(userId, oderId),
+    keepPreviousData: true,
+  })
+
+  return { orderHistoryDetail }
 }

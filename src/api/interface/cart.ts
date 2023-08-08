@@ -32,3 +32,15 @@ export interface CartDeleteResponseData {
 }
 
 export type CartDeleteResponse = ApiResponse<CartDeleteResponseData>
+
+// 장바구니 추가
+export interface CartAddRequest {
+  userId: number
+  assets: number[]
+}
+
+export interface CartAddResponseData {
+  data: null
+}
+
+export type CartAddResponse = ApiResponse<CartAddResponseData>

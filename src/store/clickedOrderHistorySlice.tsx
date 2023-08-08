@@ -4,7 +4,7 @@ const initialState: { orderHistoryId: number } = {
   orderHistoryId: 0,
 }
 
-const clickedOrderHistorySlice = createSlice({
+const clickedOrderHistoryReducer = createSlice({
   name: 'clickedOrderHistory',
   initialState,
   reducers: {
@@ -17,5 +17,5 @@ const clickedOrderHistorySlice = createSlice({
   },
 })
 
-export const { setClickedOrderHistory, clearOrderHistory } = clickedOrderHistorySlice.actions
-export default clickedOrderHistorySlice.reducer
+export const { setClickedOrderHistory, clearOrderHistory } = clickedOrderHistoryReducer.actions
+export default clickedOrderHistoryReducer.reducer

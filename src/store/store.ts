@@ -6,6 +6,7 @@ import categoryReducer from './categorySlice'
 import tagReducer from './tagSlice'
 import cartReducer from './cartSlice'
 import userReducer from './userSlice'
+import clickedOrderHistoryReducer from './clickedOrderHistorySlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     tag: tagReducer,
     cart: cartReducer,
     user: userReducer,
+    clickedOrderHistory: clickedOrderHistoryReducer,
   },
 })
 

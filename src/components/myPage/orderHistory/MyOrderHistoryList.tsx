@@ -3,21 +3,25 @@
  */
 
 import MyOrderHistoryItem from './MyOrderHistoryItem'
-import { OrderHistory } from '@/api/interface/payment'
+import { OrderHistory, OrderHistoryDetailResponse } from '@/api/interface/payment'
 
 interface OrderHistoryProps {
   orderHistories: OrderHistory[] | undefined
+  detailInfo: OrderHistoryDetailResponse | undefined
 }
 
-export default function MyOrderHistoryList({ orderHistories }: OrderHistoryProps) {
+export default function MyOrderHistoryList({ orderHistories, detailInfo }: OrderHistoryProps) {
   if (!orderHistories) return null
 
   return (
     <>
       <ul className="flex flex-col">
         {orderHistories.map((orderHistory) => (
-          <MyOrderHistoryItem key={orderHistory.orderId} orderHistory={orderHistory} />
-          // <MyOrderHistoryItem key={orderHistory.orderId} orderHistory={orderHistory} />
+          <MyOrderHistoryItem
+            key={orderHistory.orderId}
+            orderHistory={orderHistory}
+            detailInfo={detailInfo}
+          />
         ))}
       </ul>
     </>

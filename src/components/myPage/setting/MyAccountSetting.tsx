@@ -42,9 +42,9 @@ export default function MyAccountSetting() {
         <h1 className="mb-[4rem] mt-[3rem] text-[2.4rem] font-semibold">내 계정</h1>
         <form className="mb-[18%] flex" onSubmit={handleSubmit(onSubmit)}>
           {/* 성, 이름 Input */}
-          <div className="mt-3 flex flex-col">
-            <div className="mx-1 my-4 flex flex-col">
-              <h4 className="m-1 text-[1.2rem]">이름</h4>
+          <div className="flex flex-col">
+            <div className="mx-1 mb-1 flex flex-col">
+              <h4 className="my-4 text-[1.2rem] ">이름</h4>
               <input
                 type="text"
                 name="firstName"
@@ -54,8 +54,8 @@ export default function MyAccountSetting() {
               />
             </div>
 
-            <div className="mx-1 my-4 flex flex-col">
-              <h4 className="m-1 text-[1.2rem] ">성</h4>
+            <div className="mx-1 flex flex-col">
+              <h4 className="m-1 my-4 text-[1.2rem] ">성</h4>
               <input
                 type="text"
                 name="lastName"
@@ -68,13 +68,13 @@ export default function MyAccountSetting() {
 
           <div
             className={`mx-[4.5rem] mt-2 ${
-              passwordChangeVisibility ? 'h-[29.2rem]' : 'h-[16.8rem]'
+              passwordChangeVisibility ? 'h-[29rem]' : 'h-[17.5rem]'
             } border border-transparent-navy-30`}
           ></div>
 
           {/* 가입한 이메일 주소, 비밀번호 */}
-          <div className="flex flex-col">
-            <h4 className="my-4 text-[1.2rem] ">가입한 이메일 주소</h4>
+          <div className="mx-1 flex flex-col">
+            <h4 className="m-1 my-4 text-[1.2rem] ">가입한 이메일 주소</h4>
             <input
               type="email"
               disabled={true}
@@ -132,7 +132,7 @@ export default function MyAccountSetting() {
                 </button>
               </div>
             ) : (
-              <div className="mt-[11%] flex flex-col">
+              <div className="mt-[9.3%] flex flex-col">
                 <button
                   onClick={handlePasswordChangeInputVisibility}
                   className="bg-transparent m-1 h-[4.2rem] w-[38.8rem] rounded-sm border border-gray-600 px-4 py-3 text-center text-sm hover:border-blue-500"

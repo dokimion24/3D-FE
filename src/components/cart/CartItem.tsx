@@ -1,10 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
+import { useDispatch } from 'react-redux'
 import { formatPrice } from '@/utils/formatPrice'
 import CustomCheckbox from '../common/CustomCheckbox'
 import { CartItemProps as CartItemPropsInterface } from '@/api/interface/cart'
 import { deleteSelectedCartItem } from '@/utils/cartUtils'
 import { useUser } from '@/hooks/useUser'
+import { cartCount } from '@/api/service/cart'
+import { setItemCount } from '@/store/cartSlice'
 
 interface CartItemProps {
   item: CartItemPropsInterface['item']
@@ -24,6 +27,16 @@ export default function CartItem({
   setSelectedCartIds,
 }: CartItemProps) {
   const { userId } = useUser()
+  const dispatch = useDispatch()
+
+  const increaseCartCount = async () => {
+    try {
+      const cartCountNum = await cartCount(userId)
+      dispatch(setItemCount(cartCountNum))
+    } catch (error) {
+      console.log('장바구니 카운트 증가 오류:', error)
+    }
+  }
 
   const handleCheckboxChange = (isChecked: boolean) => {
     onChecked(`${item.cartId}`, isChecked) // 체크박스 체크/언체크 이벤트 핸들러 호출
@@ -31,6 +44,7 @@ export default function CartItem({
 
   const handleDeleteItem = () => {
     deleteSelectedCartItem(userId, item.cartId, cartItems, setCartItems, setSelectedCartIds)
+    increaseCartCount()
   }
 
   return (

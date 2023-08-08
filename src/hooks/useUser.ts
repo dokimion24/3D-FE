@@ -16,7 +16,8 @@ export const useUser = () => {
 
   // userId가 없는 경우에만 getUser을 호출하여 userId 가져오기
   const fetchUserId = async () => {
-    if (!userId) {
+    const accessToken = getToken()
+    if (!userId && accessToken) {
       try {
         const data = await getUserInfo()
         queryClient.setQueryData(['user', 'id'], data.data?.id)
@@ -32,5 +33,5 @@ export const useUser = () => {
     enabled: !!userId,
   })
 
-  return { user, userId, resetUserId }
+  return { user, userId, fetchUserId, resetUserId }
 }

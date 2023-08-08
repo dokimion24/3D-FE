@@ -4,6 +4,7 @@ import { AssetDetail } from '@/api/interface/asset'
 import WishlistButton from '../common/WishlistButton'
 import Image from 'next/image'
 import AssetTags from '../assets/AssetTags'
+import ThreeModel from '../common/threeModel/ThreeModel'
 
 interface Props {
   asset: AssetDetail
@@ -14,16 +15,23 @@ export default function AssetDetailContent({ asset }: Props) {
     navigator.clipboard.writeText(asset.fileUrl)
   }
 
+  const isCheckImage = asset.fileUrl.includes('thumbnail/')
+
   return (
     <>
-      <div className="h-[52.3rem] border-b border-transparent-navy-30 bg-bg-2 pt-[4.7rem]">
+      <div className=" h-[52.3rem] border-b border-transparent-navy-30 bg-bg-2 pt-[4.7rem]">
+        {/* <ThreeModel fileUrl={asset.fileUrl} /> */}
         <Image
-          src={`${process.env.NEXT_PUBLIC_S3_URL}/thumbnail/2023/06/27/1d26689e-0451-461d-83ad-cd006f114eb0.png`}
+          src={
+            isCheckImage
+              ? `${process.env.NEXT_PUBLIC_S3_URL}/${asset.fileUrl}`
+              : '/icons/cameraOff.svg'
+          }
           alt="detail"
-          width={385}
-          height={120}
-          className="mx-auto"
-        />{' '}
+          width={`${isCheckImage ? 385 : 48}`}
+          height={`${isCheckImage ? 140 : 48}`}
+          className="mx-auto flex items-center"
+        />
       </div>
       <article className="h-full px-6 pb-10 pt-6 text-neutral-navy-100">
         <div className="mb-6 flex h-[5.6rem] items-center justify-between">
